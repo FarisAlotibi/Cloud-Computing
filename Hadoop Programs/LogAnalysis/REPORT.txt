@@ -1,0 +1,13 @@
+Part 4: Developing a Hadoop program to analyze real logs
+
+1. How many hits were made to the website item “/assets/img/home-logo.png”?
+ANSWER: 98744
+
+2. How many hits were made from the IP: 10.153.239.5
+ANSWER: 10.153.239.5	547
+
+3. Which path in the website has been hit most? How many hits were made to the path?
+ANSWER: /assets/css/combined.css	117348
+
+4. Which IP accesses the website most? How many accesses were made by it?
+ANSWER: 10.216.113.172	158614
