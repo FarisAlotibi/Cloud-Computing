@@ -15,33 +15,27 @@ public class LastfmAnalysis {
 
     public static void main(String[] args) throws Exception 
     {
-        // if( args.length == 0 )
-        // {
-        //     System.out.println( "Usage: WordCount <file>" );
-        //     System.exit( 0 );
-        // }
-
-        // String filename = args[0];
-
-        String INPUT_PATH="", OUTPUT_PATH="";
+        String INPUT_PATH = "", OUTPUT_PATH = "";
 
         //Commandline Parsing
         Options options = new Options();
-        options.addOption("i","input",true,"input path(HDFS)");
-        options.addOption("o","output",true,"output path(HDFS)");
+        options.addOption("i", "input", true, "input path(HDFS)");
+        options.addOption("o", "output", true, "output path(HDFS)");
 
         CommandLineParser parser = new BasicParser();
-        CommandLine cmd = parser.parse(options,args);
+        CommandLine cmd = parser.parse(options, args);
         if(cmd.hasOption("i")){
             INPUT_PATH = cmd.getOptionValue("i");
         } else{
             System.err.println("Input path is invalid");
+            System.exit( 0 );
         }
 
         if(cmd.hasOption("o")){
             OUTPUT_PATH = cmd.getOptionValue("o");
         } else{
             System.err.println("Output path is invalid");
+            System.exit( 0 );
         }
 
         String filename = INPUT_PATH;
@@ -59,7 +53,6 @@ public class LastfmAnalysis {
         JavaRDD<String> artists = input.flatMap( s -> {
             String[] fields = s.split( "\t" );
             return Arrays.asList(fields[1] + "\t" + fields[2]).iterator();
-            //Arrays.asList(new String[]{fields[1], fields[2]}).iterator();
         });
 
         final String header = artists.first();
@@ -76,7 +69,6 @@ public class LastfmAnalysis {
 
         JavaPairRDD<String, Integer> sortedCounts = counts.mapToPair(x -> x.swap()).sortByKey(false).mapToPair(x -> x.swap());
 
-        // System.out.println(sortedCounts.take(10).getClass().getSimpleName());
         List<Tuple2<String, Integer>> top10 = sortedCounts.take(10);
         System.out.println("*****************************************************");
         System.out.println("artist\tlistening_count");
@@ -87,12 +79,8 @@ public class LastfmAnalysis {
         }
         System.out.println("*****************************************************");
 
-        // sortedCounts.take(10).foreach(System.out.println);
-        // sortedCounts.take(10).foreach(indvArray -> indvArray.foreach(println));
-
         // Save the word count back out to a text file, causing evaluation.
-        // sortedCounts.saveAsTextFile( "output" );
-	    sortedCounts.saveAsTextFile( OUTPUT_PATH );
+        sortedCounts.saveAsTextFile( OUTPUT_PATH );
     }
 }
 
