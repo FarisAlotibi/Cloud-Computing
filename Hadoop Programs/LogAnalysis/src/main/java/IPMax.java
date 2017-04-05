@@ -11,19 +11,23 @@ public class IPMax {
     public static void main(String[] args) throws Exception {
 
         if (args.length != 2) {
-            System.err.println("Usage: IPMax <input path> <output path>");
+            System.err.println("ERROR: Usage: IPMax <input path> <output path>");
+            System.err.println("EX: hadoop jar LogAnalysis.jar IPMax access_log output4");
             System.exit(-1);
         }
         else {
 
             Configuration conf = new Configuration();
+            // job configuration
             Job job = new Job(conf);
             job.setJarByClass(IPMax.class);
             job.setJobName("IPMax");
 
+            // specify input/output files
             FileInputFormat.addInputPath(job, new Path(args[0]));
             FileOutputFormat.setOutputPath(job, new Path(args[1]));
             
+            // set classes of Mapper and Reducer
             job.setMapperClass(IPMaxMapper.class);
             job.setReducerClass(IPMaxReducer.class);
 

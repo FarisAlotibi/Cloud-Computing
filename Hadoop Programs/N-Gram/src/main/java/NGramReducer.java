@@ -11,6 +11,7 @@ public class NGramReducer
         throws IOException, InterruptedException {
 
         int sum = 0;
+        // sum up all values related to a specific key
         for (IntWritable value : values) {
             sum += value.get();
         }

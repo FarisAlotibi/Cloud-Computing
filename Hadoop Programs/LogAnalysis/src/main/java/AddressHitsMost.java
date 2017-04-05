@@ -11,19 +11,23 @@ public class AddressHitsMost {
   public static void main(String[] args) throws Exception {
     
         if (args.length != 2) {
-            System.err.println("Usage: AddressHitsMost <input path> <output path>");
+            System.err.println("ERROR: Usage: AddressHitsMost <input path> <output path>");
+            System.err.println("EX: hadoop jar LogAnalysis.jar AddressHitsMost access_log output3");
             System.exit(-1);
         }
         else {
             Configuration conf = new Configuration();
 
+            // job configuration
             Job job = new Job(conf);
             job.setJarByClass(AddressHitsMost.class);
             job.setJobName("AddressHitsMost");
 
+            // specify input/output files
             FileInputFormat.addInputPath(job, new Path(args[0]));
             FileOutputFormat.setOutputPath(job, new Path(args[1]));
             
+            // set classes of Mapper and Reducer
             job.setMapperClass(AddressHitsMostMapper.class);
             job.setReducerClass(AddressHitsMostReducer.class);
 

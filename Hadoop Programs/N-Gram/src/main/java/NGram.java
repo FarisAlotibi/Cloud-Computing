@@ -11,19 +11,27 @@ public class NGram {
     public static void main(String[] args) throws Exception {
         
         if (args.length != 3) {
-            System.err.println("Usage: N-gram mperature <input path> <output path> <n>");
+            System.err.println("ERROR: Usage: NGram <input path> <output path> <n>");
+            System.err.println("EX: hadoop jar NGram.jar NGram sample.txt output 4");
             System.exit(-1);
         }
+        
+        String input_file = args[0];
+        String output_file = args[1];
+        String n = args[2];
 
         Configuration conf = new Configuration();
-        conf.set("n", args[2]);
+        // pass n to the configuration to be read by the mapper
+        conf.set("n", n);
+        // job configuration
         Job job = new Job(conf);
         job.setJarByClass(NGram.class);
         job.setJobName("NGram");
 
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path(input_file));
+        FileOutputFormat.setOutputPath(job, new Path(output_file));
 
+        // set classes of Mapper and Reducer
         job.setMapperClass(NGramMapper.class);
         job.setReducerClass(NGramReducer.class);
 
