@@ -61,7 +61,8 @@ public class AddressHitsCount {
         String filename = INPUT_PATH;
         final String urlAddress = INPUT_ADDRESS;
         // Define a configuration to use to interact with Spark
-        SparkConf conf = new SparkConf().setMaster("local").setAppName("Log Analysis App");
+        // SparkConf conf = new SparkConf().setMaster("local").setAppName("Log Analysis App"); // to make it run locally
+        SparkConf conf = new SparkConf().setAppName("Log Analysis App");// add --deploy-mode cluster
 
         // Create a Java version of the Spark Context from the configuration
         JavaSparkContext sc = new JavaSparkContext(conf);

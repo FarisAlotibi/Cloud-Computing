@@ -41,7 +41,8 @@ public class LastfmAnalysis {
         String filename = INPUT_PATH;
 
         // Define a configuration to use to interact with Spark
-        SparkConf conf = new SparkConf().setMaster("local").setAppName("Lastfm Analysis App");
+        // SparkConf conf = new SparkConf().setMaster("local").setAppName("Lastfm Analysis App"); // to make it work locally
+        SparkConf conf = new SparkConf().setAppName("Lastfm Analysis App"); // add --deploy-mode cluster
 
         // Create a Java version of the Spark Context from the configuration
         JavaSparkContext sc = new JavaSparkContext(conf);
