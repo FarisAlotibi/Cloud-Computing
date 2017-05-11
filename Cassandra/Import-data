@@ -1,0 +1,23 @@
+# CQL
+DROP KEYSPACE IF EXISTS Log_Analysis;
+DROP TABLE IF EXISTS Log_Analysis.access_log;
+
+CREATE KEYSPACE Log_Analysis WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor' : '2' };
+USE Log_Analysis;
+
+CREATE TABLE access_log (
+  id int PRIMARY KEY,
+  ip text,
+  identity text,
+  username text,
+  processing_time text,
+  request text,
+  status_code text,
+  object_size text
+);
+
+TRUNCATE access_log;
+
+COPY access_log 
+    FROM '~/access_log' 
+    WITH DELIMITER=' '; 
